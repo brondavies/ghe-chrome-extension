@@ -1,0 +1,37 @@
+{
+  "manifest_version": 2,
+  "name": "ghe",
+  "short_name": "ghe",
+  "description": "GHE extension that shows real user names",
+  "version": "0.9.0",
+  "icons": {
+    "200": "ghe.icon.png"
+  },
+  "background": { "scripts": ["extension.js"] },
+  "browser_action": {
+    "default_icon": {
+      "19": "ghe.icon-19.png",
+      "38": "ghe.icon-38.png"
+    },
+    "default_title": "GHE extension that shows real user names"
+    , "default_popup": "popup.html"
+  },
+  "content_scripts": [{
+    "js": [
+      "startup.js"
+    ],
+    "matches": [
+      "*://ghe.aa.com/*"
+    ],
+    "run_at": "document_start"
+  }],
+  "permissions": [
+    "*://ghe.aa.com/*",
+    "activeTab",
+    "storage"
+  ],
+  "web_accessible_resources": [
+    "ghe.js",
+    "ghe.api.js"
+  ]
+}

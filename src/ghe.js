@@ -7,7 +7,8 @@
       ',a.user-mention' +
       ',a span.discussion-item-entity' +
       ',.sidebar-assignee span p span.css-truncate-target.text-bold' +
-      ',a.participant-avatar.tooltipped'
+      ',a.participant-avatar.tooltipped' +
+      ',.opened-by a.muted-link'
     );
     var usermap = {};
     elements.forEach (element => {

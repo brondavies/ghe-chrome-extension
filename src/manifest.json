@@ -3,7 +3,7 @@
   "name": "ghe",
   "short_name": "ghe",
   "description": "GHE extension that shows real user names",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "icons": {
     "200": "ghe.icon.png"
   },

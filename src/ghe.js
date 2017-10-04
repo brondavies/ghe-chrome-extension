@@ -9,7 +9,8 @@
       ',.sidebar-assignee span p span.css-truncate-target.text-bold' +
       ',a.participant-avatar.tooltipped' +
       ',.opened-by a.muted-link' +
-      ',a.avatar-link.tooltipped'
+      ',a.avatar-link.tooltipped' +
+      ',li.facebox-user-list-item a'
     );
     var usermap = {};
     elements.forEach (element => {

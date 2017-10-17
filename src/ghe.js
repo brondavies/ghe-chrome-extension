@@ -10,17 +10,22 @@
       ',a.participant-avatar.tooltipped' +
       ',.opened-by a.muted-link' +
       ',a.avatar-link.tooltipped' +
-      ',li.facebox-user-list-item a'
+      ',li.facebox-user-list-item a' +
+      ',.comment-reactions-options .reaction-summary-item.tooltipped'
     );
     var usermap = {};
     elements.forEach (element => {
       var userid = null;
       if (element && element.hasAttribute(ariaLabel)) {
-        userid = element.getAttribute(ariaLabel).split(' ').pop();
+        var words = element.getAttribute(ariaLabel).split(' ');
+        userid = words.pop();
+        if (!isUserId(userid)) {
+          userid = words[0];
+        }
       } else if (element && element.innerText) {
         userid = element.innerText.replace('@', '');
       }
-      if (userid && userid.match(/[A-Z,0]{1}[0-9]{7,8}/g)) {
+      if (isUserId(userid)) {
         usermap[userid] = usermap[userid] || [];
         usermap[userid].push(element);
       }
@@ -39,6 +44,11 @@
       });
     }
   }
+
+  function isUserId(userid) {
+    return userid && userid.match(/[A-Z,0]{1}[0-9]{7,8}/g);
+  }
+
   setTimeout(lookupUsernames, 250);
   setInterval(lookupUsernames, 5000);
 })();

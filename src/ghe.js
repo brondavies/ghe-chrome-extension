@@ -16,7 +16,7 @@
     elements.forEach (element => {
       var userid = null;
       if (element && element.hasAttribute(ariaLabel)) {
-        userid = element.getAttribute(ariaLabel);
+        userid = element.getAttribute(ariaLabel).split(' ').pop();
       } else if (element && element.innerText) {
         userid = element.innerText.replace('@', '');
       }
@@ -30,8 +30,9 @@
         usermap[uid].forEach(element => {
           var capitalized = name.toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
           if (element.hasAttribute(ariaLabel)) {
-            element.setAttribute(ariaLabel, capitalized);
-          } else {
+            element.setAttribute(ariaLabel, element.getAttribute(ariaLabel).replace(userid, capitalized));
+          }
+          if (element.innerText === userid || element.innerText === '@' + userid) {
             element.innerText = capitalized;
           }
         });

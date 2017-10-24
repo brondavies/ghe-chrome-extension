@@ -11,7 +11,10 @@
       ',.opened-by a.muted-link' +
       ',a.avatar-link.tooltipped' +
       ',li.facebox-user-list-item a' +
-      ',.comment-reactions-options .reaction-summary-item.tooltipped'
+      ',.comment-reactions-options .reaction-summary-item.tooltipped' +
+      ',.branch-meta a.muted-link' +
+      ',.contrib-data a.aname' +
+      ',.blame-commit-meta a[rel="contributor"]'
     );
     var usermap = {};
     elements.forEach (element => {

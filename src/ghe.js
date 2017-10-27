@@ -14,7 +14,8 @@
       ',.comment-reactions-options .reaction-summary-item.tooltipped' +
       ',.branch-meta a.muted-link' +
       ',.contrib-data a.aname' +
-      ',.blame-commit-meta a[rel="contributor"]'
+      ',.blame-commit-meta a[rel="contributor"]' +
+      ',div.flash a.text-emphasized'
     );
     var usermap = {};
     elements.forEach (element => {

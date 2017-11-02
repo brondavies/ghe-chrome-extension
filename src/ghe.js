@@ -15,19 +15,20 @@
       ',.branch-meta a.muted-link' +
       ',.contrib-data a.aname' +
       ',.blame-commit-meta a[rel="contributor"]' +
-      ',div.flash a.text-emphasized'
+      ',.flash a.text-emphasized' +
+      ',.merge-status-item > a.tooltipped'
     );
     var usermap = {};
     elements.forEach (element => {
       var userid = null;
       if (element && element.hasAttribute(ariaLabel)) {
         var words = element.getAttribute(ariaLabel).split(' ');
-        userid = words.pop();
+        userid = words.pop().replace('@', '');
         if (!isUserId(userid)) {
-          userid = words[0];
+          userid = words[0].replace('@', '');
         }
       } else if (element && element.innerText) {
-        userid = element.innerText.replace('@', '');
+        userid = element.innerText.trim().replace('@', '');
       }
       if (isUserId(userid)) {
         usermap[userid] = usermap[userid] || [];
@@ -39,9 +40,11 @@
         usermap[uid].forEach(element => {
           var capitalized = name.toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
           if (element.hasAttribute(ariaLabel)) {
-            element.setAttribute(ariaLabel, element.getAttribute(ariaLabel).replace(userid, capitalized));
+            element.setAttribute(ariaLabel, element.getAttribute(ariaLabel)
+              .replace('@' + userid, capitalized)
+              .replace(userid, capitalized));
           }
-          if (element.innerText === userid || element.innerText === '@' + userid) {
+          if (element.innerText.trim().replace('@', '') === userid) {
             element.innerText = capitalized;
           }
         });
@@ -54,5 +57,7 @@
   }
 
   setTimeout(lookupUsernames, 250);
+  setTimeout(lookupUsernames, 1000);
+  setTimeout(lookupUsernames, 2000);
   setInterval(lookupUsernames, 5000);
 })();

@@ -53,7 +53,7 @@
   }
 
   function isUserId(userid) {
-    return userid && userid.match(/[A-Z,0]{1}[0-9]{7,8}/g);
+    return userid && userid.match(/[aA-Z0]{1}[0-9]{6,8}/g);
   }
 
   setTimeout(lookupUsernames, 250);

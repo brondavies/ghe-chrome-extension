@@ -9,10 +9,12 @@
   }
   window.ghe = {
     usernames: JSON.parse(localStorage.getItem('usernameCache') || '{}'),
+    temp: {},
     api: {
       getUsername: (userid, after) => {
-        if (ghe.usernames[userid]) {
-          after(userid, ghe.usernames[userid]);
+        var value = ghe.usernames[userid] || ghe.temp[userid];
+        if (value) {
+          after(userid, value);
           return;
         }
         fetch('/' + userid, {
@@ -23,9 +25,15 @@
           var matches = text.match('(.*)<title>' + userid + ' \\((.+)\\)<\\/title>');
           if (matches && matches.length > 2) {
             var name = matches[2];
-            ghe.usernames[userid] = name;
+            if (name != userid) {
+              ghe.usernames[userid] = name;
+              cache();
+            } else {
+              ghe.temp[userid] = name;
+            }
             after(userid, name);
-            cache();
+          } else {
+            ghe.temp[userid] = userid;
           }
         })
       }

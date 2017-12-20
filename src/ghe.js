@@ -16,7 +16,8 @@
       ',.contrib-data a.aname' +
       ',.blame-commit-meta a[rel="contributor"]' +
       ',.flash a.text-emphasized' +
-      ',.merge-status-item > a.tooltipped'
+      ',.merge-status-item > a.tooltipped' +
+      ',.review-status-item strong'
     );
     var usermap = {};
     elements.forEach (element => {

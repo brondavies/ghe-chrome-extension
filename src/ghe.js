@@ -60,5 +60,7 @@
   setTimeout(lookupUsernames, 250);
   setTimeout(lookupUsernames, 1000);
   setTimeout(lookupUsernames, 2000);
-  setInterval(lookupUsernames, 5000);
+  //setInterval(lookupUsernames, 5000);
+  var observer = new MutationObserver(lookupUsernames);
+  observer.observe(document.body, {attributes: true, childList: true});
 })();

@@ -1,26 +1,27 @@
 (function() {
   var ariaLabel = 'aria-label';
+  var selector =
+    'a.author' +
+    ',a.assignee' +
+    ',a.user-mention' +
+    ',a span.discussion-item-entity' +
+    ',.sidebar-assignee span p span.css-truncate-target.text-bold' +
+    ',a.participant-avatar.tooltipped' +
+    ',.opened-by a.muted-link' +
+    ',a.avatar-link.tooltipped' +
+    ',li.facebox-user-list-item a' +
+    ',.comment-reactions-options .reaction-summary-item.tooltipped' +
+    ',.branch-meta a.muted-link' +
+    ',.contrib-data a.aname' +
+    ',.blame-commit-meta a[rel="contributor"]' +
+    ',.flash a.text-emphasized' +
+    ',.merge-status-item > a.tooltipped' +
+    ',.review-status-item strong';
   function lookupUsernames() {
-    var elements = document.querySelectorAll(
-      'a.author' +
-      ',a.assignee' +
-      ',a.user-mention' +
-      ',a span.discussion-item-entity' +
-      ',.sidebar-assignee span p span.css-truncate-target.text-bold' +
-      ',a.participant-avatar.tooltipped' +
-      ',.opened-by a.muted-link' +
-      ',a.avatar-link.tooltipped' +
-      ',li.facebox-user-list-item a' +
-      ',.comment-reactions-options .reaction-summary-item.tooltipped' +
-      ',.branch-meta a.muted-link' +
-      ',.contrib-data a.aname' +
-      ',.blame-commit-meta a[rel="contributor"]' +
-      ',.flash a.text-emphasized' +
-      ',.merge-status-item > a.tooltipped' +
-      ',.review-status-item strong'
-    );
+    var elements = document.querySelectorAll(selector);
     var usermap = {};
-    elements.forEach (element => {
+    for (var elindex = elements.length - 1; elindex >= 0; elindex--) {
+      var element = elements[elindex];
       var userid = null;
       if (element && element.hasAttribute(ariaLabel)) {
         var words = element.getAttribute(ariaLabel).split(' ');
@@ -35,10 +36,13 @@
         usermap[userid] = usermap[userid] || [];
         usermap[userid].push(element);
       }
-    });
-    for (var userid in usermap) {
+    }
+    var userids = Object.keys(usermap);
+    for (var i = userids.length - 1; i >= 0; i--) {
+      var userid = userids[i];
       ghe.api.getUsername(userid, (uid, name) => {
-        usermap[uid].forEach(element => {
+        for (var mapindex = usermap[uid].length - 1; mapindex >= 0; mapindex--) {
+          var element = usermap[uid][mapindex];
           var capitalized = name.toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
           if (element.hasAttribute(ariaLabel)) {
             element.setAttribute(ariaLabel, element.getAttribute(ariaLabel)
@@ -48,7 +52,7 @@
           if (element.innerText.trim().replace('@', '') === userid) {
             element.innerText = capitalized;
           }
-        });
+        }
       });
     }
   }
@@ -60,7 +64,10 @@
   setTimeout(lookupUsernames, 250);
   setTimeout(lookupUsernames, 1000);
   setTimeout(lookupUsernames, 2000);
-  //setInterval(lookupUsernames, 5000);
-  var observer = new MutationObserver(lookupUsernames);
-  observer.observe(document.body, {attributes: true, childList: true});
+  var updateTimer = 0;
+  var observer = new MutationObserver(() => {
+    clearTimeout(updateTimer);
+    updateTimer = setTimeout(lookupUsernames, 100);
+  });
+  observer.observe(document.body, {attributes: true, childList: true, subtree: true});
 })();

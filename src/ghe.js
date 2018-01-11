@@ -26,7 +26,7 @@
       if (element && element.hasAttribute(ariaLabel)) {
         var words = element.getAttribute(ariaLabel).split(' ');
         userid = words.pop().replace('@', '');
-        if (!isUserId(userid)) {
+        if (!isUserId(userid) && words.length) {
           userid = words[0].replace('@', '');
         }
       } else if (element && element.innerText) {

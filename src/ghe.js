@@ -16,7 +16,8 @@
     ',.blame-commit-meta a[rel="contributor"]' +
     ',.flash a.text-emphasized' +
     ',.merge-status-item > a.tooltipped' +
-    ',.review-status-item strong';
+    ',.review-status-item strong' +
+    ',.svg-tip.n strong:nth-child(2)';
   function lookupUsernames() {
     var elements = document.querySelectorAll(selector);
     var usermap = {};

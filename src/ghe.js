@@ -17,6 +17,7 @@
     ',.flash a.text-emphasized' +
     ',.merge-status-item > a.tooltipped' +
     ',.review-status-item strong' +
+    ',.reviewers-status-icon.tooltipped' +
     ',.svg-tip.n strong:nth-child(2)';
   function lookupUsernames() {
     var elements = document.querySelectorAll(selector);
